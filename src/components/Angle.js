@@ -34,9 +34,10 @@ const ARC_COLOUR = "#446688";
 export function Angle({angle1, angle2, delta}) {
   return (
     <svg height={HEIGHT} width={WIDTH}>
+      <path d={describeArc(WIDTH/2, HEIGHT/2, ARC_RADIUS, angle1, angle2, delta)} fill="none" strokeWidth="2" stroke={ARC_COLOUR}></path>
       <line x1={WIDTH/2} y1={HEIGHT/2} x2={RADIUS*Math.cos(angle1)+WIDTH/2} y2={RADIUS*Math.sin(angle1)+HEIGHT/2} style={{stroke: LINE_COLOUR, strokeWidth:2}} />
       <line x1={WIDTH/2} y1={HEIGHT/2} x2={RADIUS*Math.cos(angle2)+WIDTH/2} y2={RADIUS*Math.sin(angle2)+HEIGHT/2} style={{stroke: LINE_COLOUR, strokeWidth:2}} />
-      <path d={describeArc(WIDTH/2, HEIGHT/2, ARC_RADIUS, angle1, angle2, delta)} fill="none" strokeWidth="2" stroke={ARC_COLOUR}></path>
+      <circle cx={WIDTH/2} cy={HEIGHT/2} r={3} fill="black" />
     </svg>
   )
 }

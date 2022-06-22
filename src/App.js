@@ -30,6 +30,7 @@ const Button = styled.button`
   padding:10px;
   border-radius: 10px;
   border-width: 0px;
+  font-family: "Boston-Regular";
   background-color: lightgrey;
   :active {
     background-color: darkgrey;
@@ -45,6 +46,7 @@ const InputArea = styled.div`
 const Logo = styled.img`
   height: 6rem;
   pointer-events: none;
+  font-family: "Boston-Regular";
 `;
 
 const MAX_GUESSES = 3;
