@@ -101,7 +101,7 @@ export function StatsModal({ end, win, guesses, maxAttempts, dayString}) {
 
   const maxDistribution = Math.max(...Object.values(guessDistribution));
 
-  // useEffect(() => setTimeout(() => setOpen(end), 1500), [end]);
+  useEffect(() => {setTimeout(() => setOpen(end), 1500)}, [end]);
 
   return (
     <div>

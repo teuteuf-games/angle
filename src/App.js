@@ -10,6 +10,7 @@ import { Guesses } from './components/Guesses';
 import { useState, useMemo, useEffect } from 'react';
 import { useGuesses } from './hooks/useGuesses';
 import { StatsModal } from './components/StatsModal';
+import { MAX_GUESSES } from './constants';
 
 const BigContainer = styled.div`
   display: flex;
@@ -78,7 +79,6 @@ const getDayString = () => {
   return DateTime.now().toFormat("yyyy-MM-dd");
 };
 
-const MAX_GUESSES = 3;
 function App() {
 
   const dayString = useMemo(getDayString, []);
@@ -117,7 +117,7 @@ function App() {
 
   const handleGuess = (e) => {
     if (Number(guess) < 0) return;
-    addGuess({value: Math.round(Number(guess)), delta: Math.abs(Math.round(Number(guess)) - Math.round(answer))});
+    addGuess({value: Math.round(Number(guess)), delta: Math.round(Number(guess)) - Math.round(answer)});
   }
 
   return (
