@@ -14,9 +14,16 @@ import { StatsModal } from './components/StatsModal';
 const BigContainer = styled.div`
   display: flex;
   text-align: center;
-  justify-content: center;
+  position: absolute;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  @media (prefers-color-scheme: dark) {
+  background-color: #121212;
+  }
 `;
 
 const Input = styled.input`
@@ -24,6 +31,10 @@ const Input = styled.input`
   border-radius:10px;
   border-style: solid;
   margin-right: 0.5rem;
+  @media (prefers-color-scheme: dark) {
+    background-color: #1F2023;
+    color: #DADADA
+  }
 `;
 
 const Button = styled.button`
@@ -34,6 +45,10 @@ const Button = styled.button`
   background-color: lightgrey;
   :active {
     background-color: darkgrey;
+  }
+  @media (prefers-color-scheme: dark) {
+    background-color: #1F2023;
+    color: #DADADA
   }
 `;
 
@@ -53,6 +68,9 @@ const Attempts = styled.div`
   margin-bottom: 0.5rem;
   .span {
     font-weight: bold;
+  }
+  @media (prefers-color-scheme: dark) {
+  color: #fff;
   }
 `;
 

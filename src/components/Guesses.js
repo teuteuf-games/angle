@@ -15,10 +15,10 @@ const AngleGuess = styled.div`
   margin-right: 2px;
   align-items: center;
   justify-content: center;
-  /* @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark) {
     background-color: #1F2023;
     color: #DADADA
-} */
+}
 `;
 
 const ArrowBox = styled.div`
@@ -31,10 +31,10 @@ const ArrowBox = styled.div`
   margin-right: 2px;
   align-items: center;
   justify-content: center;
-  /* @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark) {
     background-color: #1F2023;
     color: #DADADA
-} */
+}
 `;
 
 const Hint = styled.div`
@@ -46,10 +46,10 @@ const Hint = styled.div`
   grid-column: 4 / span 3;
   align-items: center;
   justify-content: center;
-  /* @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark) {
     background-color: #1F2023;
     color: #DADADA
-  } */
+  }
 `;
 
 const temperature = (guess, answer) => {

@@ -80,9 +80,6 @@ const DistBar = styled.div`
 
 const LeaderboardIconStyled = styled(LeaderboardIcon)`
   color: #DF6247;
-  /* @media (prefers-color-scheme: dark) {
-    color: white;
-  } */
 `;
 
 const Type = styled(Typography)`
