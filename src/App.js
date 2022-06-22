@@ -18,6 +18,7 @@ const Title = styled.div`
 const Input = styled.input`
   padding:10px;
   border-radius:10px;
+  border-style: solid;
   margin-right: 0.5rem;
 `;
 
@@ -75,7 +76,9 @@ function App() {
   }
 
   const handleGuess = (e) => {
-    setGuesses(guesses => [...guesses, Number(guess)])
+    console.log(guess);
+    if (Number(guess) < 0) return;
+    setGuesses(guesses => [...guesses, Math.round(Number(guess))])
   }
 
   return (
@@ -83,7 +86,7 @@ function App() {
       <Logo src={angleLogo} alt="logo" />
       <Angle angle1={angle1} angle2={angle2} delta={deltaAngle > Math.PI}></Angle>
       <InputArea>
-        <Input type="number" onChange={handleInput} disabled={end}/>
+        <Input type="number" pattern="\d*" onChange={handleInput} disabled={end}/>
         <Button onClick={handleGuess} disabled={end}>Guess!</Button>
       </InputArea>
       <Guesses guesses={guesses} answer={answer}/>
