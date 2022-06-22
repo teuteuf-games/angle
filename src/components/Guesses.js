@@ -4,6 +4,7 @@ const GuessLine = styled.div`
   display: grid;
   grid-template-columns: repeat(6, minmax(30px, 2.5rem));
   margin: 0px 2px 2px 2px;
+  margin-bottom: ${props => props.marginBottom};
 `;
 const AngleGuess = styled.div`
   display:flex; 
@@ -74,13 +75,13 @@ const temperature = (guess, answer) => {
 
 export function Guesses({guesses, answer}) {
     return guesses.map((guess, index) => (
-        <GuessLine>
-            <AngleGuess>{guess}°</AngleGuess>
-            {answer === guess ? 
+        <GuessLine key={index} marginBottom={index == guesses.length - 1 ? "1rem" : "2px"}>
+            <AngleGuess>{guess.value}°</AngleGuess>
+            {answer === guess.value ? 
                 <ArrowBox>🥳</ArrowBox> :
-                <ArrowBox>{answer > guess ? "⬆️" : "⬇️"}</ArrowBox>
+                <ArrowBox>{answer > guess.value ? "⬆️" : "⬇️"}</ArrowBox>
             }
-            <Hint>{temperature(guess, answer)}</Hint>
+            <Hint>{temperature(guess.value, answer)}</Hint>
         </GuessLine>
     )
     )
