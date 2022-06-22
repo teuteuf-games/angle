@@ -1,4 +1,7 @@
 import angleLogo from './angle_logo.svg';
+import { ToastContainer, Flip } from "react-toastify";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { Angle } from './components/Angle';
 import { Guesses } from './components/Guesses';
@@ -6,6 +9,7 @@ import { useState, useMemo, useEffect } from 'react';
 
 const BigContainer = styled.div`
   display: flex;
+  text-align: center;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -58,31 +62,35 @@ function App() {
 
   useEffect(() => {
     if (Math.round(answer) === Math.round(guesses[guesses.length - 1])) {
-      console.log("Correct!");
+      toast(`🎉 ${answer}° 🎉`);
       setWin(true);
       setEnd(true);
       return;
     }
     if (guesses.length >= MAX_GUESSES) {
-      console.log("max guesses");
+      toast(`🤔 ${answer}° 🤔`);
       setEnd(true);
     }
 
   }, [guesses]);
 
-  console.log(Math.round(answer))
   const handleInput = (e) => {
     setGuess(e.target.value); 
   }
 
   const handleGuess = (e) => {
-    console.log(guess);
     if (Number(guess) < 0) return;
     setGuesses(guesses => [...guesses, Math.round(Number(guess))])
   }
 
   return (
     <BigContainer>
+      <ToastContainer
+        hideProgressBar
+        position="top-center"
+        transition={Flip}
+        autoClose={false}
+      />
       <Logo src={angleLogo} alt="logo" />
       <Angle angle1={angle1} angle2={angle2} delta={deltaAngle > Math.PI}></Angle>
       <InputArea>

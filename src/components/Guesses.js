@@ -75,7 +75,7 @@ const temperature = (guess, answer) => {
 export function Guesses({guesses, answer}) {
     return guesses.map((guess, index) => (
         <GuessLine>
-            <AngleGuess>{guess}</AngleGuess>
+            <AngleGuess>{guess}°</AngleGuess>
             {answer === guess ? 
                 <ArrowBox>🥳</ArrowBox> :
                 <ArrowBox>{answer > guess ? "⬆️" : "⬇️"}</ArrowBox>
