@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
+import angleLogo from './angle_logo.svg';
 import styled from 'styled-components';
-import Angle from './components/Angle';
+import { Angle } from './components/Angle';
+import { Guesses } from './components/Guesses';
 import { useState, useMemo, useEffect } from 'react';
 
 const BigContainer = styled.div`
@@ -33,11 +33,16 @@ const Button = styled.button`
 
 const InputArea = styled.div`
   margin-top: 1rem;
+  margin-bottom: 1rem;
   display: flex;
 `;
 
+const Logo = styled.img`
+  height: 6rem;
+  pointer-events: none;
+`;
 
-const MAX_GUESSES = 2;
+const MAX_GUESSES = 3;
 function App() {
 
   const [angle1, setAngle1] = useState(Math.random()*2*Math.PI);
@@ -48,7 +53,7 @@ function App() {
   const [win, setWin] = useState(false);
 
   const deltaAngle = useMemo(() => angle1 > angle2 ? angle1 - angle2 : 2*Math.PI - (angle2 - angle1), [angle1, angle2]);
-  const answer = useMemo(() => (180/Math.PI)*deltaAngle, [deltaAngle]);
+  const answer = useMemo(() => Math.round((180/Math.PI)*deltaAngle, [deltaAngle]));
 
   useEffect(() => {
     if (Math.round(answer) === Math.round(guesses[guesses.length - 1])) {
@@ -70,17 +75,18 @@ function App() {
   }
 
   const handleGuess = (e) => {
-    setGuesses(guesses => [...guesses, guess])
+    setGuesses(guesses => [...guesses, Number(guess)])
   }
 
   return (
     <BigContainer>
-      <Title>ANGLE</Title>
+      <Logo src={angleLogo} alt="logo" />
       <Angle angle1={angle1} angle2={angle2} delta={deltaAngle > Math.PI}></Angle>
       <InputArea>
-        <Input type="number" onChange={handleInput}/>
-        <Button onClick={handleGuess}>Guess!</Button>
+        <Input type="number" onChange={handleInput} disabled={end}/>
+        <Button onClick={handleGuess} disabled={end}>Guess!</Button>
       </InputArea>
+      <Guesses guesses={guesses} answer={answer}/>
     </BigContainer>
   );
 }

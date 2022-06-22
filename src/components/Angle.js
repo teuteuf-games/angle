@@ -25,14 +25,18 @@ function describeArc(x, y, radius, angle1, angle2, largeArc){
     return d;       
 }
 
-const Angle = ({angle1, angle2, delta}) => {
+const HEIGHT = 200;
+const WIDTH = 300;
+const ARC_RADIUS = 20;
+const LINE_COLOUR = "#DF6247";
+const ARC_COLOUR = "#446688";
+
+export function Angle({angle1, angle2, delta}) {
   return (
-    <svg height="210" width="500">
-      <line x1="250" y1="105" x2={RADIUS*Math.cos(angle1)+250} y2={RADIUS*Math.sin(angle1)+105} style={{stroke: "red", strokeWidth:2}} />
-      <line x1="250" y1="105" x2={RADIUS*Math.cos(angle2)+250} y2={RADIUS*Math.sin(angle2)+105} style={{stroke: "red", strokeWidth:2}} />
-      <path d={describeArc(250, 105, 20, angle1, angle2, delta)} fill="none" strokeWidth="2" stroke="#446688"></path>
+    <svg height={HEIGHT} width={WIDTH}>
+      <line x1={WIDTH/2} y1={HEIGHT/2} x2={RADIUS*Math.cos(angle1)+WIDTH/2} y2={RADIUS*Math.sin(angle1)+HEIGHT/2} style={{stroke: LINE_COLOUR, strokeWidth:2}} />
+      <line x1={WIDTH/2} y1={HEIGHT/2} x2={RADIUS*Math.cos(angle2)+WIDTH/2} y2={RADIUS*Math.sin(angle2)+HEIGHT/2} style={{stroke: LINE_COLOUR, strokeWidth:2}} />
+      <path d={describeArc(WIDTH/2, HEIGHT/2, ARC_RADIUS, angle1, angle2, delta)} fill="none" strokeWidth="2" stroke={ARC_COLOUR}></path>
     </svg>
   )
 }
-
-export default Angle;
