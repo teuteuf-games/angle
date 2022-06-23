@@ -84,7 +84,7 @@ function App() {
   const dayString = useMemo(getDayString, []);
   const [angle1, setAngle1] = useState(Math.floor(seedrandom.alea(dayString)()*2*Math.PI));
   const [angle2, setAngle2] = useState(Math.floor(seedrandom.alea(dayString+"otherrandomstring")()*2*Math.PI));
-  const [guess, setGuess] = useState(0);  
+  const [guess, setGuess] = useState("");  
   const [guesses, addGuess] = useGuesses(dayString);
   const [end, setEnd] = useState(false);
   const [win, setWin] = useState(false);
