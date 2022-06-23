@@ -116,9 +116,20 @@ function App() {
   }
 
   const handleGuess = (e) => {
-    if (Number(guess) < 0) return;
+    if (Number(guess) < 0 || Number(guess) > 360) {
+      toast("Valid angles: 0° - 360°", {autoClose: 2000});
+      return;
+    }
     addGuess({value: Math.round(Number(guess)), delta: Math.round(Number(guess)) - Math.round(answer)});
+    setGuess("");
   }
+  
+  const handleEnter = e => {
+    console.log("Hi")
+    if (e.keyCode === 13) {
+      handleGuess();
+    }
+  };
 
   return (
     <BigContainer>
@@ -138,8 +149,16 @@ function App() {
       </StatsModal>
       <Angle angle1={angle1} angle2={angle2} delta={deltaAngle > Math.PI}></Angle>
       <InputArea>
-        <Input type="number" pattern="\d*" onChange={handleInput} disabled={end}/>
-        <Button onClick={handleGuess} disabled={end}>Guess!</Button>
+        <Input type="number"
+          pattern="\d*" 
+          onChange={handleInput}
+          onKeyDown={handleEnter}
+          disabled={end}
+          value={guess}
+          />
+        <Button onClick={handleGuess}
+          disabled={end}
+        >Guess!</Button>
       </InputArea>
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
