@@ -1,4 +1,4 @@
 # TODO 
-- Share string
+- favicons
 - How to play?
 - dev mode i.e. endless

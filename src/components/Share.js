@@ -16,7 +16,11 @@ const getShareString = (win, guesses) => {
     string += `X/${MAX_GUESSES}\n`;
   }
 
+  let smallestDelta = 400;
   for (const guess of guesses) {
+    if (guess.delta < smallestDelta) {
+      smallestDelta = guess.delta;
+    }
     if (guess.delta > 0) {
       string += "⬇️";
     } else if (guess.delta < 0) {
@@ -26,6 +30,11 @@ const getShareString = (win, guesses) => {
     }
 
   }
+
+  if (!win) {
+    string += `: ${Math.abs(smallestDelta)}° off`
+  }
+
   return string;
 }
 
@@ -49,4 +58,3 @@ export function Share({ win, guesses, attempts, end, dayString}) {
     </CopyToClipboard>
   )
 }
-
