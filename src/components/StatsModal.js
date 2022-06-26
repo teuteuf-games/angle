@@ -78,6 +78,10 @@ const DistBar = styled.div`
   }
 `;
 
+const GuessNumber = styled.div`
+  width: 1rem;
+`;
+
 const LeaderboardIconStyled = styled(LeaderboardIcon)`
   color: #DF6247;
 `;
@@ -141,7 +145,7 @@ export function StatsModal({ end, win, guesses, maxAttempts, dayString}) {
             {Object.entries(guessDistribution).map(([index, count]) => (
               <ListItem sx={{paddingBottom: 0}}
                         key={index}>
-                <div>{index}</div>
+                <GuessNumber>{index}</GuessNumber>
                 <DistBar
                   count={count}
                   maxDistribution={maxDistribution}

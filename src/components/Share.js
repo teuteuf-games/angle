@@ -18,8 +18,8 @@ const getShareString = (win, guesses) => {
 
   let smallestDelta = 400;
   for (const guess of guesses) {
-    if (guess.delta < smallestDelta) {
-      smallestDelta = guess.delta;
+    if (Math.abs(guess.delta) < smallestDelta) {
+      smallestDelta = Math.abs(guess.delta);
     }
     if (guess.delta > 0) {
       string += "⬇️";

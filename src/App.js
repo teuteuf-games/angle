@@ -125,7 +125,6 @@ function App() {
   }
   
   const handleEnter = e => {
-    console.log("Hi")
     if (e.keyCode === 13) {
       handleGuess();
     }
