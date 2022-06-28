@@ -75,7 +75,7 @@ const temperature = (guess, answer) => {
 
 export function Guesses({guesses, answer}) {
     return guesses.map((guess, index) => (
-        <GuessLine key={index} marginBottom={index == guesses.length - 1 ? "1rem" : "2px"}>
+        <GuessLine key={index}>
             <AngleGuess>{guess.value}°</AngleGuess>
             {answer === guess.value ? 
                 <ArrowBox>🥳</ArrowBox> :

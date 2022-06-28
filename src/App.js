@@ -11,6 +11,8 @@ import { useState, useMemo, useEffect } from 'react';
 import { useGuesses } from './hooks/useGuesses';
 import { StatsModal } from './components/StatsModal';
 import { MAX_GUESSES } from './constants';
+import GoogleAd from './components/GoogleAd';
+import { HowToModal } from './components/HowToModal';
 
 const BigContainer = styled.div`
   display: flex;
@@ -75,21 +77,35 @@ const Attempts = styled.div`
   }
 `;
 
+const AdContainer = styled.div`
+  width: 100%;
+  margin-top: auto;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const getDayString = () => {
   return DateTime.now().toFormat("yyyy-MM-dd");
 };
 
+const DEV_MODE = false;
 function App() {
 
   const dayString = useMemo(getDayString, []);
-  const [angle1, setAngle1] = useState(Math.floor(seedrandom.alea(dayString)()*2*Math.PI));
-  const [angle2, setAngle2] = useState(Math.floor(seedrandom.alea(dayString+"otherrandomstring")()*2*Math.PI));
+  const [angle1, setAngle1] = useState(Math.floor((DEV_MODE ? Math.random() : seedrandom.alea(dayString)())*2*Math.PI));
+  const [angle2, setAngle2] = useState(Math.floor((DEV_MODE ? Math.random() : seedrandom.alea(dayString+"otherrandomstring")())*2*Math.PI));
   const [guess, setGuess] = useState("");  
   const [guesses, addGuess] = useGuesses(dayString);
   const [end, setEnd] = useState(false);
   const [win, setWin] = useState(false);
 
-  const deltaAngle = useMemo(() => angle1 > angle2 ? angle1 - angle2 : 2*Math.PI - (angle2 - angle1), [angle1, angle2]);
+  const deltaAngle = useMemo(() => angle1 >= angle2 ? angle1 - angle2 : 2*Math.PI - (angle2 - angle1), [angle1, angle2]);
   const answer = useMemo(() => Math.round((180/Math.PI)*deltaAngle, [deltaAngle]));
 
   useEffect(() => {
@@ -139,14 +155,17 @@ function App() {
         autoClose={false}
       />
       <Logo src={angleLogo} alt="logo" />            
-      <StatsModal end={end}
-              win={win}
-              guesses={guesses}
-              maxAttempts={MAX_GUESSES}
-              dayString={dayString}
-      >
-      </StatsModal>
-      <Angle angle1={angle1} angle2={angle2} delta={deltaAngle > Math.PI}></Angle>
+      <IconContainer>
+        <HowToModal/>
+        <StatsModal end={end}
+                win={win}
+                guesses={guesses}
+                maxAttempts={MAX_GUESSES}
+                dayString={dayString}
+        >
+        </StatsModal>
+      </IconContainer>
+      <Angle angle1={angle1} angle2={angle2} largeArc={deltaAngle > Math.PI}></Angle>
       <InputArea>
         <Input type="number"
           pattern="\d*" 
@@ -161,6 +180,9 @@ function App() {
       </InputArea>
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
+      {/* <AdContainer>
+        <GoogleAd slot="5595078974"/>
+      </AdContainer> */}
     </BigContainer>
   );
 }
