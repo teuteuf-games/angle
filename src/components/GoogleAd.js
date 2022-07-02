@@ -17,9 +17,11 @@ function GoogleAd(props) {
     const { currentPath } = props
     useEffect(() => {
         window.adsbygoogle = window.adsbygoogle || []
-        window.adsbygoogle.push({
-        overlays: {bottom: true}
-        })
+        try{
+            window.adsbygoogle.push({
+            overlays: {bottom: true}
+        })}
+        catch(ex){}
     }, [])
     return (
         <div>

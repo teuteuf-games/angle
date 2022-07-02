@@ -180,9 +180,9 @@ function App() {
       </InputArea>
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
-      {/* <AdContainer>
+      <AdContainer>
         <GoogleAd slot="5595078974"/>
-      </AdContainer> */}
+      </AdContainer>
     </BigContainer>
   );
 }
