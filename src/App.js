@@ -98,8 +98,8 @@ const DEV_MODE = false;
 function App() {
 
   const dayString = useMemo(getDayString, []);
-  const [angle1, setAngle1] = useState(Math.floor((DEV_MODE ? Math.random() : seedrandom.alea(dayString)())*2*Math.PI));
-  const [angle2, setAngle2] = useState(Math.floor((DEV_MODE ? Math.random() : seedrandom.alea(dayString+"otherrandomstring")())*2*Math.PI));
+  const [angle1, setAngle1] = useState((DEV_MODE ? Math.random() : seedrandom.alea(dayString)())*2*Math.PI);
+  const [angle2, setAngle2] = useState((DEV_MODE ? Math.random() : seedrandom.alea(dayString+"otherrandomstring")())*2*Math.PI);
   const [guess, setGuess] = useState("");  
   const [guesses, addGuess] = useGuesses(dayString);
   const [end, setEnd] = useState(false);
@@ -109,6 +109,11 @@ function App() {
   const answer = useMemo(() => Math.round((180/Math.PI)*deltaAngle, [deltaAngle]));
 
   useEffect(() => {
+    // To be removed!!
+    if (dayString === "2022-07-04" || dayString === "2022-07-05") {
+      setAngle1(angle => Math.floor(angle));
+      setAngle2(angle => Math.floor(angle));
+    }
     if (Math.round(answer) === Math.round(guesses[guesses.length - 1]?.value)) {
       setWin(true);
       setEnd(true);
