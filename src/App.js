@@ -11,7 +11,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useGuesses } from './hooks/useGuesses';
 import { StatsModal } from './components/StatsModal';
 import { MAX_GUESSES } from './constants';
-import GoogleAd from './components/GoogleAd';
+import AdSpace from './components/AdSpace';
 import { HowToModal } from './components/HowToModal';
 
 const BigContainer = styled.div`
@@ -186,7 +186,7 @@ function App() {
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
       <AdContainer>
-        <GoogleAd slot="5595078974"/>
+        <AdSpace />
       </AdContainer>
     </BigContainer>
   );
