@@ -19,6 +19,7 @@ const BigContainer = styled.div`
   text-align: center;
   position: absolute;
   overflow: auto;
+  flex: 1 0 auto;
   height: 100%;
   width: 100%;
   justify-content: flex-start;
