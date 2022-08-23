@@ -84,6 +84,7 @@ const AdContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  gap: 1rem;
 `;
 
 const IconContainer = styled.div`
