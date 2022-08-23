@@ -17,6 +17,7 @@ const StyledBox = styled(Box)`
   width: -webkit-fill-available;
   height: auto;
   max-width: 350px;
+  min-width: 250px;
   max-height: 400px;
   overflow: auto;
   background-color: #fff;

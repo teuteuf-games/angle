@@ -17,7 +17,6 @@ import { HowToModal } from './components/HowToModal';
 const BigContainer = styled.div`
   display: flex;
   text-align: center;
-  position: absolute;
   overflow: auto;
   flex: 1 0 auto;
   height: 100%;
@@ -84,6 +83,7 @@ const AdContainer = styled.div`
   bottom: 0px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 `;
 
 const IconContainer = styled.div`
@@ -187,6 +187,7 @@ function App() {
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
       <AdContainer>
+        <a class="nn-cmp-show" href="#">Manage Cookie Settings</a>
         <AdSpace />
       </AdContainer>
     </BigContainer>
