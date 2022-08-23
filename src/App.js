@@ -14,11 +14,15 @@ import { MAX_GUESSES } from './constants';
 import AdSpace from './components/AdSpace';
 import { HowToModal } from './components/HowToModal';
 
+const Main = styled.div`
+  flex: 1 0 auto;
+  text-align: center;
+`;
+
 const BigContainer = styled.div`
   display: flex;
   text-align: center;
   overflow: auto;
-  flex: 1 0 auto;
   height: 100%;
   width: 100%;
   justify-content: flex-start;
@@ -111,11 +115,6 @@ function App() {
   const answer = useMemo(() => Math.round((180/Math.PI)*deltaAngle, [deltaAngle]));
 
   useEffect(() => {
-    // To be removed!!
-    if (dayString === "2022-07-04" || dayString === "2022-07-05") {
-      setAngle1(angle => Math.floor(angle));
-      setAngle2(angle => Math.floor(angle));
-    }
     if (Math.round(answer) === Math.round(guesses[guesses.length - 1]?.value)) {
       setWin(true);
       setEnd(true);
@@ -154,6 +153,8 @@ function App() {
   };
 
   return (
+    <Main>
+
     <BigContainer>
       <ToastContainer
         hideProgressBar
@@ -192,6 +193,7 @@ function App() {
         <AdSpace />
       </AdContainer>
     </BigContainer>
+    </Main>
   );
 }
 
