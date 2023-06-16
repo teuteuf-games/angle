@@ -19,6 +19,14 @@ const Main = styled.div`
   text-align: center;
 `;
 
+const SidebarAd = styled.div`
+  display:block;
+  position:absolute;
+  z-index: 0;
+  padding-top:20px;
+  transform: translateX(-100%);
+`;
+
 const BigContainer = styled.div`
   display: flex;
   text-align: center;
@@ -156,6 +164,7 @@ function App() {
     <Main>
 
     <BigContainer>
+
       <ToastContainer
         hideProgressBar
         position="top-center"
@@ -188,8 +197,10 @@ function App() {
       </InputArea>
       <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
       <Guesses guesses={guesses} answer={answer}/>
+      <SidebarAd>
+        <div id="adngin-sidebar_left-0"></div>
+      </SidebarAd>
       <AdContainer>
-        <a class="nn-cmp-show" href="#">Manage Cookie Settings</a>
         <AdSpace />
       </AdContainer>
     </BigContainer>
