@@ -202,6 +202,7 @@ function App() {
         <div id="adngin-sidebar_left-0"></div>
       </SidebarAd>
       <AdContainer>
+        <div style={{display:'inline-flex'}}><a href="/privacy-policy/" style={{color: '#df6347'}}>Privacy Policy</a> - <div id="ccpa" style={{textAlign:'center',cursor:'pointer',display:'none'}}>Do not share my Personal Information.</div></div>
         <AdSpace />
       </AdContainer>
     </BigContainer>
