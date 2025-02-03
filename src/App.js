@@ -13,6 +13,7 @@ import { StatsModal } from './components/StatsModal';
 import { MAX_GUESSES } from './constants';
 import AdSpace from './components/AdSpace';
 import { HowToModal } from './components/HowToModal';
+import { SocialLinks } from './components/SocialLinks';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -163,49 +164,73 @@ function App() {
 
   return (
     <Main>
-
-    <BigContainer>
-
-      <ToastContainer
-        hideProgressBar
-        position="top-center"
-        transition={Flip}
-        autoClose={false}
-      />
-      <Logo src={angleLogo} alt="logo" />            
-      <IconContainer>
-        <HowToModal/>
-        <StatsModal end={end}
-                win={win}
-                guesses={guesses}
-                maxAttempts={MAX_GUESSES}
-                dayString={dayString}
-        >
-        </StatsModal>
-      </IconContainer>
-      <Angle angle1={angle1} angle2={angle2} largeArc={deltaAngle > Math.PI}></Angle>
-      <InputArea>
-        <Input type="number"
-          pattern="\d*" 
-          onChange={handleInput}
-          onKeyDown={handleEnter}
-          disabled={end}
-          value={guess}
+      <BigContainer>
+        <ToastContainer
+          hideProgressBar
+          position="top-center"
+          transition={Flip}
+          autoClose={false}
+        />
+        <Logo src={angleLogo} alt="logo" />
+        <IconContainer>
+          <HowToModal />
+          <StatsModal
+            end={end}
+            win={win}
+            guesses={guesses}
+            maxAttempts={MAX_GUESSES}
+            dayString={dayString}
+          ></StatsModal>
+        </IconContainer>
+        <Angle
+          angle1={angle1}
+          angle2={angle2}
+          largeArc={deltaAngle > Math.PI}
+        ></Angle>
+        <InputArea>
+          <Input
+            type="number"
+            pattern="\d*"
+            onChange={handleInput}
+            onKeyDown={handleEnter}
+            disabled={end}
+            value={guess}
           />
-        <Button onClick={handleGuess}
-          disabled={end}
-        >Guess!</Button>
-      </InputArea>
-      <Attempts>Attempts: <span>{guesses.length}/{MAX_GUESSES}</span></Attempts>
-      <Guesses guesses={guesses} answer={answer}/>
-      <SidebarAd>
-        <div id="adngin-sidebar_left-0"></div>
-      </SidebarAd>
-      <AdContainer>
-        <div style={{textAlign:'center'}}><a href="/privacy-policy/" style={{color: '#df6347'}}>Privacy Policy</a> - <div id="ccpa" style={{textAlign:'center',cursor:'pointer',display:'none'}}>Do not share my Personal Information.</div></div>
-        <AdSpace />
-      </AdContainer>
-    </BigContainer>
+          <Button onClick={handleGuess} disabled={end}>
+            Guess!
+          </Button>
+        </InputArea>
+        <Attempts>
+          Attempts:{' '}
+          <span>
+            {guesses.length}/{MAX_GUESSES}
+          </span>
+        </Attempts>
+        <Guesses guesses={guesses} answer={answer} />
+        <SidebarAd>
+          <div id="adngin-sidebar_left-0"></div>
+        </SidebarAd>
+        <AdContainer>
+          <SocialLinks />
+          <div style={{ textAlign: 'center' }}>
+            <a href="/privacy-policy/" style={{ color: '#df6347' }}>
+              Privacy Policy
+            </a>{' '}
+            -{' '}
+            <div
+              id="ccpa"
+              style={{
+                textAlign: 'center',
+                cursor: 'pointer',
+                display: 'none',
+              }}
+            >
+              Do not share my Personal Information.
+            </div>
+          </div>
+          <AdSpace />
+        </AdContainer>
+      </BigContainer>
     </Main>
   );
 }
