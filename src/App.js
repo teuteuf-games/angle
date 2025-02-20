@@ -13,7 +13,9 @@ import { StatsModal } from './components/StatsModal';
 import { MAX_GUESSES } from './constants';
 import AdSpace from './components/AdSpace';
 import { HowToModal } from './components/HowToModal';
+import { LoginModal } from './components/LoginModal';
 import { SocialLinks } from './components/SocialLinks';
+import useUser from './hooks/useUser';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -120,6 +122,7 @@ function App() {
   const [guesses, addGuess] = useGuesses(dayString);
   const [end, setEnd] = useState(false);
   const [win, setWin] = useState(false);
+  const { user, setData, logout } = useUser();
 
   const deltaAngle = useMemo(() => angle1 >= angle2 ? angle1 - angle2 : 2*Math.PI - (angle2 - angle1), [angle1, angle2]);
   const answer = useMemo(() => Math.round((180/Math.PI)*deltaAngle, [deltaAngle]));
@@ -154,6 +157,10 @@ function App() {
     }
     addGuess({value: Math.round(Number(guess)), delta: Math.round(Number(guess)) - Math.round(answer)});
     setGuess("");
+    try {
+      const guesses = JSON.parse(localStorage.getItem("guesses"));
+      setData("guesses", guesses);
+    } catch (e) {}
   }
   
   const handleEnter = e => {
@@ -181,6 +188,7 @@ function App() {
             maxAttempts={MAX_GUESSES}
             dayString={dayString}
           ></StatsModal>
+          <LoginModal user={user} logout={logout} />
         </IconContainer>
         <Angle
           angle1={angle1}
