@@ -159,19 +159,19 @@ export function LoginModal(props) {
               We now store your stats after each game. This not only safeguards your progress but also enables seamless gameplay across multiple devices.
             </Typography>
             <Typography component="p">
-              <a href="https://account.teuteuf.fr/benefits" target="_blank">Learn more</a>
+              <a href="https://account.teuteuf.fr" target="_blank">Learn more</a>
             </Typography>
             <br />
             <BigButton onClick={() => {
               props.logout();
               return false;
             }}>Sign out</BigButton>
-            <BigButton href="https://account.teuteuf.fr/manage-account" target="_blank">Manage account</BigButton>
+            <BigButton href="https://account.teuteuf.fr" target="_blank">Manage account</BigButton>
           </>}
           {!props.user && <>
             <Typography component="p">
               Sign up for a Teuteuf Games account or log in to start saving your gaming statistics and playing across multiple devices.
-              Want to know all the benefits? <a href="https://account.teuteuf.fr/benefits" target="_blank">Discover more here.</a>
+              Want to know all the benefits? <a href="https://account.teuteuf.fr" target="_blank">Discover more here.</a>
             </Typography>
             <br />
             <CenterDiv display="flex" flexDirection="column">
