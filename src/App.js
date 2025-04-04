@@ -83,6 +83,7 @@ const LogoContainer = styled.a`
   gap: 8px;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 `;
 
 const Logo = styled.img`
@@ -206,7 +207,7 @@ function App() {
           transition={Flip}
           autoClose={false}
         />
-        <LogoContainer>
+        <LogoContainer href={'/'}>
           <Logo src={'/images/angle.svg'} alt="logo" />
           <LogoText>ANGLE</LogoText>
         </LogoContainer>
