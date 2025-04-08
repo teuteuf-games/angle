@@ -120,6 +120,7 @@ const AdContainer = styled.div`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
 `;
 
 const getDayString = () => {
