@@ -120,7 +120,7 @@ export function LoginModal(props) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div className="flex justify-center items-center">
       <Button onClick={handleOpen}>
         {!props.user?.photoURL && <LoginIcon/>}
         {props.user?.photoURL && <img src={props.user.photoURL} alt={props.user.firstName} style={{
