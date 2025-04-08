@@ -128,99 +128,136 @@ async function setData(key, value) {
     return false;
 }
 
+export const updateSeenAccountsUpdateModal = () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return null;
+  }
+  try {
+    axios.post(
+      `${SERVER_URL}/api/seenaccountsupdatemodal`,
+      {},
+      {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
+  } catch {
+    return;
+  }
+};
+
 export default function useUser() {
-    const [user, setUser] = useState();
-    const [isLoaded, setIsLoaded] = useState(false);
-    const adsScript = useRef();
+  const [user, setUser] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showAccountsUpdateModal, setShowAccountsUpdateModal] = useState(false);
+  const adsScript = useRef();
 
-    useEffect(() => {
-        if (!isLoaded) {
-            return;
-        }
-        if (adsScript.current) {
-            // Ads already loaded
-            return;
-        }
-        if (!user || !user.premiumGames.includes("angle")) {
-            adsScript.current = loadAds();
-        }
-    }, [isLoaded, user]);
-
-    function logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('refreshTime');
-        localStorage.removeItem('teuteufUser');
-        setUser(null);
+  const checkToShowAccountsUpdateModal = () => {
+    const storedSeenModal = localStorage.getItem('accounts-update-modal');
+    if (storedSeenModal !== 'true' && Date.now() < 1747348430000) {
+      setShowAccountsUpdateModal(true);
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('teuteufUser')) {
-            setUser(JSON.parse(localStorage.getItem('teuteufUser')));
+    localStorage.setItem('accounts-update-modal', 'true');
+    updateSeenAccountsUpdateModal();
+    return;
+  };
+
+  useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+    if (adsScript.current) {
+      // Ads already loaded
+      return;
+    }
+    if (!user || !user.premiumGames.includes('angle')) {
+      adsScript.current = loadAds();
+    }
+  }, [isLoaded, user]);
+
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('refreshTime');
+    localStorage.removeItem('teuteufUser');
+    setUser(null);
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('teuteufUser')) {
+      setUser(JSON.parse(localStorage.getItem('teuteufUser')));
+    }
+
+    (async () => {
+      // If hash is of the form `#userData=...`, then we have a user data hash
+      const hash = window.location.hash;
+      if (hash.startsWith('#userData=')) {
+        // Extract user data
+        const { token, refreshToken } = JSON.parse(
+          decodeURIComponent(hash.substring('#userData='.length))
+        );
+        localStorage.setItem('token', token);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('refreshTime', Date.now());
+
+        // save token + refresh token + user data
+        window.location = '/';
+      }
+
+      await refreshTokens();
+      const user = await getUser();
+      if (user) {
+        setUser(user);
+        setIsLoaded(true);
+        localStorage.setItem('teuteufUser', JSON.stringify(user));
+
+        try {
+          const localData = JSON.parse(localStorage.getItem('guesses')) ?? {};
+          const data = await getData('guesses');
+          if (data) {
+            // Merge into local storage
+            let changed = false;
+            for (const date in data) {
+              if (!localData.hasOwnProperty(date)) {
+                localData[date] = data[date];
+                changed = true;
+              }
+            }
+            if (changed) {
+              localStorage.setItem('guesses', JSON.stringify(localData));
+            }
+          }
+
+          let shouldUpload = false;
+          for (const date in localData) {
+            if (!data || !data.hasOwnProperty(date)) {
+              shouldUpload = true;
+              break;
+            }
+          }
+
+          if (shouldUpload) {
+            await setData('guesses', localData);
+          }
+        } catch (e) {
+          console.error('Unable to sync data');
         }
+        if (!user.seenAccountsUpdateModal) {
+          checkToShowAccountsUpdateModal(true);
+        }
+      } else {
+        setIsLoaded(true);
+        checkToShowAccountsUpdateModal();
+      }
+    })();
+  }, []);
 
-        (async () => {
-            // If hash is of the form `#userData=...`, then we have a user data hash
-            const hash = window.location.hash;
-            if (hash.startsWith("#userData=")) {
-                // Extract user data
-                const { token, refreshToken } = JSON.parse(decodeURIComponent(hash.substring("#userData=".length)));
-                localStorage.setItem("token", token);
-                localStorage.setItem("refreshToken", refreshToken);
-                localStorage.setItem('refreshTime', Date.now());
-
-                // save token + refresh token + user data
-                window.location = "/";
-            }
-
-            await refreshTokens();
-            const user = await getUser();
-            if (user) {
-                setUser(user);
-                setIsLoaded(true);
-                localStorage.setItem("teuteufUser", JSON.stringify(user));
-
-                try {
-                    const localData = JSON.parse(localStorage.getItem("guesses")) ?? {};
-                    const data = await getData("guesses");
-                    if (data) {
-                        // Merge into local storage
-                        let changed = false;
-                        for (const date in data) {
-                            if (! localData.hasOwnProperty(date)) {
-                                localData[date] = data[date];
-                                changed = true;
-                            }
-                        }
-                        if (changed) {
-                            localStorage.setItem("guesses", JSON.stringify(localData));
-                        }
-                    }
-
-                    let shouldUpload = false;
-                    for (const date in localData) {
-                        if (!data || !data.hasOwnProperty(date)) {
-                            shouldUpload = true;
-                            break;
-                        }
-                    }
-
-                    if (shouldUpload) {
-                        await setData("guesses", localData);
-                    }
-                } catch (e) {
-                    console.error("Unable to sync data");
-                }
-            } else {
-                setIsLoaded(true);
-            }
-        })();
-    }, []);
-
-    // show ads iff not premium
-    return {
-        user,
-        setData,
-        logout,
-    };
+  // show ads iff not premium
+  return {
+    user,
+    setData,
+    logout,
+    showAccountsUpdateModal,
+  };
 }
