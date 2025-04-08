@@ -15,6 +15,7 @@ import { HowToModal } from './components/HowToModal';
 import { LoginModal } from './components/LoginModal';
 import { SocialLinks } from './components/SocialLinks';
 import useUser from './hooks/useUser';
+import AccountsUpdateComponent from './components/AccountsUpdateComponent';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -120,6 +121,8 @@ const AdContainer = styled.div`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
 `;
 
 const getDayString = () => {
@@ -201,6 +204,7 @@ function App() {
   return (
     <Main>
       <BigContainer>
+        <AccountsUpdateComponent />
         <ToastContainer
           hideProgressBar
           position="top-center"
