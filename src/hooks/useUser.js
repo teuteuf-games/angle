@@ -156,10 +156,9 @@ export default function useUser() {
     const storedSeenModal = localStorage.getItem('accounts-update-modal');
     if (storedSeenModal !== 'true' && Date.now() < 1747348430000) {
       setShowAccountsUpdateModal(true);
+      localStorage.setItem('accounts-update-modal', 'true');
+      updateSeenAccountsUpdateModal();
     }
-
-    localStorage.setItem('accounts-update-modal', 'true');
-    updateSeenAccountsUpdateModal();
     return;
   };
 
@@ -244,11 +243,11 @@ export default function useUser() {
           console.error('Unable to sync data');
         }
         if (!user.seenAccountsUpdateModal) {
-          checkToShowAccountsUpdateModal(true);
+          // checkToShowAccountsUpdateModal(true);
         }
       } else {
         setIsLoaded(true);
-        checkToShowAccountsUpdateModal();
+        // checkToShowAccountsUpdateModal();
       }
     })();
   }, []);
