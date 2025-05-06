@@ -49,6 +49,8 @@ const Input = styled.input`
   padding:10px;
   border-radius:10px;
   border-style: solid;
+  border-width: 1px;
+  border-color: black;
   margin-right: 0.5rem;
   @media (prefers-color-scheme: dark) {
     background-color: #1F2023;
@@ -197,6 +199,7 @@ function App() {
         ></Angle>
         <InputArea>
           <Input
+            autoFocus
             type="number"
             pattern="\d*"
             onChange={handleInput}
