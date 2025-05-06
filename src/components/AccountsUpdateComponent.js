@@ -5,7 +5,7 @@ const AccountsUpdateComponent = () => {
   const { showAccountsUpdateModal } = useUser();
 
   return (
-    <div className='text-start'>
+    <div className="text-start">
       <AccountsUpdateModal show={showAccountsUpdateModal} loggedIn={false} />
     </div>
   );

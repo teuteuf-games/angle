@@ -15,117 +15,115 @@ if (typeof window !== 'undefined') {
 }
 
 function loadAds() {
-    console.log("inject ads");
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = "https://cdn.snigelweb.com/adengine/angle.wtf/loader.js";
-    script.type = "text/javascript";
-    script.setAttribute("data-cfasync", "false");
-    document.body.appendChild(script);
-    return script;
+  console.log('inject ads');
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://cdn.snigelweb.com/adengine/angle.wtf/loader.js';
+  script.type = 'text/javascript';
+  script.setAttribute('data-cfasync', 'false');
+  document.body.appendChild(script);
+  return script;
 }
 
 async function refreshTokens() {
-    const token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-    if (!token || !refreshToken) {
-        // No token found
-        console.log("No token found");
-        return;
+  const token = localStorage.getItem('token');
+  const refreshToken = localStorage.getItem('refreshToken');
+  if (!token || !refreshToken) {
+    // No token found
+    console.log('No token found');
+    return;
+  }
+  const refreshTime = localStorage.getItem('refreshTime');
+  if (refreshTime) {
+    const refreshDate = new Date(+refreshTime);
+    const today = new Date();
+    if (
+      refreshDate.getDate() === today.getDate() &&
+      refreshDate.getMonth() === today.getMonth() &&
+      refreshDate.getFullYear() === today.getFullYear()
+    ) {
+      // Tokens already refreshed today
+      console.log('Tokens already refreshed today');
+      return;
     }
-    const refreshTime = localStorage.getItem('refreshTime');
-    if (refreshTime) {
-        const refreshDate = new Date(+refreshTime);
-        const today = new Date();
-        if (
-            refreshDate.getDate() === today.getDate() &&
-            refreshDate.getMonth() === today.getMonth() &&
-            refreshDate.getFullYear() === today.getFullYear()
-        ) {
-            // Tokens already refreshed today
-            console.log("Tokens already refreshed today");
-            return;
-        }
-    }
+  }
 
-    // Make a request to refresh the token
-    const response = await axios.post(`${SERVER_URL}/auth/refresh`, {
-        token,
-        refreshToken,
-    });
-    try {
-        if (response?.data) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('refreshToken', response.data.refreshToken);
-            localStorage.setItem('refreshTime', Date.now());
-        }
-    } catch (e) {
-        console.error(e);
+  // Make a request to refresh the token
+  const response = await axios.post(`${SERVER_URL}/auth/refresh`, {
+    token,
+    refreshToken,
+  });
+  try {
+    if (response?.data) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('refreshTime', Date.now());
     }
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function getUser() {
-    const token = localStorage.getItem("token");
-    if (token) {
-        // Fetch user data...make request
-        try {
-            const response = await axios.get(`${SERVER_URL}/api/getuser`, {
-                headers: { Authorization: 'Bearer ' + token },
-            });
-            const user = response.data;
-            return user;
-        } catch (e) {}
-    }
-    return null;
+  const token = localStorage.getItem('token');
+  if (token) {
+    // Fetch user data...make request
+    try {
+      const response = await axios.get(`${SERVER_URL}/api/getuser`, {
+        headers: { Authorization: 'Bearer ' + token },
+      });
+      const user = response.data;
+      return user;
+    } catch (e) {}
+  }
+  return null;
 }
 
 async function getData(key) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        return null;
-    }
-    try {
-        const response = await axios.post(
-            `${SERVER_URL}/api/getdata`,
-            {
-                gameId: 'angle',
-                key,
-            },
-            {
-                headers: { Authorization: 'Bearer ' + token },
-            },
-        );
-        if (response.data?.value) {
-            return response.data.value;
-        }
-    } catch (e) {
-    }
+  const token = localStorage.getItem('token');
+  if (!token) {
     return null;
+  }
+  try {
+    const response = await axios.post(
+      `${SERVER_URL}/api/getdata`,
+      {
+        gameId: 'angle',
+        key,
+      },
+      {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
+    if (response.data?.value) {
+      return response.data.value;
+    }
+  } catch (e) {}
+  return null;
 }
 
 async function setData(key, value) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        return false;
-    }
-    try {
-        const response = await axios.post(
-            `${SERVER_URL}/api/setdata`,
-            {
-                gameId: 'angle',
-                key,
-                value,
-            },
-            {
-                headers: { Authorization: 'Bearer ' + token },
-            },
-        );
-        if (response.data?.value) {
-            return true;
-        }
-    } catch (e) {
-    }
+  const token = localStorage.getItem('token');
+  if (!token) {
     return false;
+  }
+  try {
+    const response = await axios.post(
+      `${SERVER_URL}/api/setdata`,
+      {
+        gameId: 'angle',
+        key,
+        value,
+      },
+      {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
+    if (response.data?.value) {
+      return true;
+    }
+  } catch (e) {}
+  return false;
 }
 
 export const updateSeenAccountsUpdateModal = () => {

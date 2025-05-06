@@ -46,12 +46,12 @@ const StyledModal = styled(Modal)`
 `;
 
 const CenterDiv = styled.div`
-  display: ${props => props.display};
+  display: ${(props) => props.display};
   justify-content: center;
 `;
 
 const HelpIcon = styled(HelpOutlineIcon)`
-  color: #DF6247;
+  color: #df6247;
 `;
 
 export function HowToModal(props) {
@@ -59,27 +59,32 @@ export function HowToModal(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const guesses = [{value: 50}, {value: 73}, {value: 62}];
+  const guesses = [{ value: 50 }, { value: 73 }, { value: 62 }];
   const answer = 65;
 
   return (
     <div>
-      <Button onClick={handleOpen}><HelpIcon/></Button>
+      <Button onClick={handleOpen}>
+        <HelpIcon />
+      </Button>
       <StyledModal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{zIndex: 10000}}
+        sx={{ zIndex: 10000 }}
       >
         <StyledBox>
           <Box>
-            <IconButton onClick={handleClose} sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}>
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
@@ -90,34 +95,30 @@ export function HowToModal(props) {
             Guess the Angle in 4 guesses or less!
           </Typography>
           <Typography id="modal-modal-paragraph" component="p">
-            Each time you make a guess it will tell you how close you are and which direction to go.
+            Each time you make a guess it will tell you how close you are and
+            which direction to go.
           </Typography>
           <br />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Example:
           </Typography>
           <CenterDiv display="flex">
-            <Angle angle1={120 + answer} angle2={120} largeArc={false}/>
+            <Angle angle1={120 + answer} angle2={120} largeArc={false} />
           </CenterDiv>
           <CenterDiv display="grid">
-            <Guesses
-              guesses={guesses}
-              answer={answer}
-            />
+            <Guesses guesses={guesses} answer={answer} />
           </CenterDiv>
           <br />
           <Typography id="modal-modal-paragraph" component="p">
-            The hint tells you how warm your guess was and the arrow tells you to guess higher or lower.
+            The hint tells you how warm your guess was and the arrow tells you
+            to guess higher or lower.
           </Typography>
           <Typography id="modal-modal-paragraph" component="p">
             The answer in this case was:
           </Typography>
           <br />
           <CenterDiv display="grid">
-            <Guesses
-              guesses={[{value: answer}]}
-              answer={answer}
-            />
+            <Guesses guesses={[{ value: answer }]} answer={answer} />
           </CenterDiv>
         </StyledBox>
       </StyledModal>
