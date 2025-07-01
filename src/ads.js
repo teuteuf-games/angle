@@ -30,13 +30,13 @@ function getActiveAdUnits() {
   switch (breakpoint.toLowerCase()) {
     case 'xsmall': // Small Mobile
     case 'small': // Portrait Tablet / Large Mobile
-      window.activeUnits = ['adhesion', 'top_banner']; // Mobile Ad Units
+      activeUnits = ['adhesion', 'top_banner']; // Mobile Ad Units
       break;
     default:
     case 'medium':
     case 'xlarge':
     case 'large':
-      window.activeUnits = ['sidebar_left', 'video', 'adhesion'];
+      activeUnits = ['sidebar_left', 'video', 'adhesion'];
       break;
   }
 
