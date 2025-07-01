@@ -226,20 +226,18 @@ export function LoginModal(props) {
               </CenterDiv>
             </>
           )}
-          {!props.user?.premiumGames?.includes('angle') && (
-            <div className="text-start text-xs py-3 mt-5">
-              <p>
-                You can change your privacy settings by clicking the following
-                button:{' '}
-                <button
-                  className="underline cursor-pointer"
-                  onClick={() => window.adconsent('showGUI')}
-                >
-                  Manage Consent
-                </button>
-              </p>
-            </div>
-          )}
+          <div className="text-start text-xs py-3 mt-5">
+            <p>
+              You can change your privacy settings by clicking the following
+              button:{' '}
+              <button
+                className="underline cursor-pointer"
+                onClick={() => window.adconsent && window.adconsent('showGUI')}
+              >
+                Manage Consent
+              </button>
+            </p>
+          </div>
         </StyledBox>
       </StyledModal>
     </div>
