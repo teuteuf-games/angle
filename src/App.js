@@ -16,6 +16,7 @@ import { LoginModal } from './components/LoginModal';
 import { SocialLinks } from './components/SocialLinks';
 import useUser from './hooks/useUser';
 import AccountsUpdateComponent from './components/AccountsUpdateComponent';
+import { checkForConsent } from './ads';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -150,6 +151,10 @@ function App() {
   const [win, setWin] = useState(false);
   const { user, setData, logout } = useUser();
 
+  useEffect(() => {
+    checkForConsent();
+  }, []);
+
   const deltaAngle = useMemo(
     () =>
       angle1 >= angle2 ? angle1 - angle2 : 2 * Math.PI - (angle2 - angle1),
@@ -204,81 +209,92 @@ function App() {
   };
 
   return (
-    <Main>
-      <BigContainer>
-        <AccountsUpdateComponent />
-        <ToastContainer
-          hideProgressBar
-          position="top-center"
-          transition={Flip}
-          autoClose={false}
-        />
-        <LogoContainer href={'/'}>
-          <Logo src={'/images/angle.svg'} alt="logo" />
-          <LogoText>ANGLE</LogoText>
-        </LogoContainer>
-        <IconContainer>
-          <HowToModal />
-          <StatsModal
-            end={end}
-            win={win}
-            guesses={guesses}
-            maxAttempts={MAX_GUESSES}
-            dayString={dayString}
-          ></StatsModal>
-          <LoginModal user={user} logout={logout} />
-        </IconContainer>
-        <Angle
-          angle1={angle1}
-          angle2={angle2}
-          largeArc={deltaAngle > Math.PI}
-        ></Angle>
-        <InputArea>
-          <Input
-            autoFocus
-            type="number"
-            pattern="\d*"
-            onChange={handleInput}
-            onKeyDown={handleEnter}
-            disabled={end}
-            value={guess}
+    <>
+      {!user?.premiumGames?.includes('angle') && (
+        <>
+          <div id="adngin-top_banner-0"></div>
+          <div id="adngin-video-0"></div>
+          <div id="adngin-adhesion-0"></div>
+        </>
+      )}
+      <Main>
+        <BigContainer>
+          <AccountsUpdateComponent />
+          <ToastContainer
+            hideProgressBar
+            position="top-center"
+            transition={Flip}
+            autoClose={false}
           />
-          <Button onClick={handleGuess} disabled={end}>
-            Guess!
-          </Button>
-        </InputArea>
-        <Attempts>
-          Attempts:{' '}
-          <span>
-            {guesses.length}/{MAX_GUESSES}
-          </span>
-        </Attempts>
-        <Guesses guesses={guesses} answer={answer} />
-        <SidebarAd>
-          <div id="adngin-sidebar_left-0"></div>
-        </SidebarAd>
-        <AdContainer>
-          <SocialLinks />
-          <div style={{ textAlign: 'center' }}>
-            <a href="/privacy-policy/" style={{ color: '#df6347' }}>
-              Privacy Policy
-            </a>{' '}
-            -{' '}
-            <div
-              id="ccpa"
-              style={{
-                textAlign: 'center',
-                cursor: 'pointer',
-                display: 'none',
-              }}
-            >
-              Do not share my Personal Information.
+          <LogoContainer href={'/'}>
+            <Logo src={'/images/angle.svg'} alt="logo" />
+            <LogoText>ANGLE</LogoText>
+          </LogoContainer>
+          <IconContainer>
+            <HowToModal />
+            <StatsModal
+              end={end}
+              win={win}
+              guesses={guesses}
+              maxAttempts={MAX_GUESSES}
+              dayString={dayString}
+            ></StatsModal>
+            <LoginModal user={user} logout={logout} />
+          </IconContainer>
+          <Angle
+            angle1={angle1}
+            angle2={angle2}
+            largeArc={deltaAngle > Math.PI}
+          ></Angle>
+          <InputArea>
+            <Input
+              autoFocus
+              type="number"
+              pattern="\d*"
+              onChange={handleInput}
+              onKeyDown={handleEnter}
+              disabled={end}
+              value={guess}
+            />
+            <Button onClick={handleGuess} disabled={end}>
+              Guess!
+            </Button>
+          </InputArea>
+          <Attempts>
+            Attempts:{' '}
+            <span>
+              {guesses.length}/{MAX_GUESSES}
+            </span>
+          </Attempts>
+          <Guesses guesses={guesses} answer={answer} />
+          {!user?.premiumGames?.includes('angle') && (
+            <SidebarAd>
+              <div id="adngin-sidebar_left-0"></div>
+            </SidebarAd>
+          )}
+          <AdContainer>
+            <SocialLinks />
+            <div style={{ textAlign: 'center' }}>
+              <a href="/privacy-policy/" style={{ color: '#df6347' }}>
+                Privacy Policy
+              </a>{' '}
+              -{' '}
+              <div
+                id="ccpa"
+                style={{
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  display: 'none',
+                }}
+              >
+                Do not share my Personal Information.
+              </div>
             </div>
-          </div>
-          <AdSpace />
-        </AdContainer>
-      </BigContainer>
-    </Main>
+            <AdSpace />
+          </AdContainer>
+        </BigContainer>
+      </Main>
+    </>
   );
 }
 
