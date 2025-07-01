@@ -16,6 +16,7 @@ import { LoginModal } from './components/LoginModal';
 import { SocialLinks } from './components/SocialLinks';
 import useUser from './hooks/useUser';
 import AccountsUpdateComponent from './components/AccountsUpdateComponent';
+import { checkForConsent } from './ads';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -149,6 +150,10 @@ function App() {
   const [end, setEnd] = useState(false);
   const [win, setWin] = useState(false);
   const { user, setData, logout } = useUser();
+
+  useEffect(() => {
+    checkForConsent();
+  }, []);
 
   const deltaAngle = useMemo(
     () =>

@@ -8,7 +8,10 @@ export function loadAds(isPremium) {
   script.src = 'https://cdn.snigelweb.com/adengine/angle.wtf/loader.js';
   script.type = 'text/javascript';
   script.setAttribute('data-cfasync', 'false');
-  document.body.appendChild(script);
+
+  if (!document.querySelector(`script[src*="adengine/angle.wtf/loader.js"]`)) {
+    document.body.appendChild(script);
+  }
   return script;
 }
 
@@ -63,3 +66,50 @@ function setActiveAdUnits(isPremium) {
     },
   };
 }
+
+/**
+ * Check for consent, then load GA and other cookie scripts
+ */
+export const checkForConsent = () => {
+  window.addEventListener('adnginLoaderReady', function () {
+    window.__tcfapi('addEventListener', 2, (tcData, success) => {
+      if (success && tcData?.eventStatus === 'tcloaded') {
+        window.adconsent &&
+          window.adconsent('getConsent', null, function (consent, success) {
+            if (success) {
+              if (consent.fullConsent) {
+                // Load cookie scripts here
+                console.log('########### yas consent');
+                initializeAnalytics();
+              } else {
+                // Otherwise, block all cookie-deploying scripts
+                console.log('########### naur consent');
+              }
+            }
+          });
+      }
+    });
+  });
+};
+
+const initializeAnalytics = () => {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(...args) {
+    window.dataLayer?.push(args);
+  }
+
+  const currentID = 'G-WDL5SFD2WC';
+
+  if (!document.querySelector(`script[src*="gtag/js?id=${currentID}"]`)) {
+    const script = document.createElement('script');
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${currentID}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', currentID);
+    };
+  }
+  return;
+};
