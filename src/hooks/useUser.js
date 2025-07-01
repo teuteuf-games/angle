@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import { loadAds } from '../ads';
 
 let SERVER_URL = '';
 
@@ -12,17 +13,6 @@ if (typeof window !== 'undefined') {
   } else {
     SERVER_URL = 'https://auth.teuteuf.fr';
   }
-}
-
-function loadAds() {
-  console.log('inject ads');
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://cdn.snigelweb.com/adengine/angle.wtf/loader.js';
-  script.type = 'text/javascript';
-  script.setAttribute('data-cfasync', 'false');
-  document.body.appendChild(script);
-  return script;
 }
 
 async function refreshTokens() {
@@ -168,9 +158,7 @@ export default function useUser() {
       // Ads already loaded
       return;
     }
-    if (!user || !user.premiumGames.includes('angle')) {
-      adsScript.current = loadAds();
-    }
+    adsScript.current = loadAds(user?.premiumGames?.includes('angle'));
   }, [isLoaded, user]);
 
   function logout() {

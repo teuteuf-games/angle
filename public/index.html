@@ -37,45 +37,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script>
-      var breakpoint = 'xsmall';
-
-      var w = window.innerWidth;
-
-      breakpoint = w>=768 ? 'small' : breakpoint;
-      breakpoint = w>=960 ? 'medium' : breakpoint;
-      breakpoint = w>=1280 ? 'large' : breakpoint;
-      breakpoint = w>=1400 ? 'xlarge' : breakpoint;
-
-      window.activeUnits = [];
-
-      switch(breakpoint.toLowerCase()) {
-        case 'xsmall':	// Small Mobile
-        case 'small': // Portrait Tablet / Large Mobile
-          window.activeUnits = ["adhesion", "top_banner"]; // Mobile Ad Units
-          break;
-        default:
-        case 'medium':
-        case 'xlarge':
-        case 'large':
-          window.activeUnits = ["sidebar_left", "video", "adhesion"];
-          break;
-      }
-
-
-
-    </script>
-    <script data-cfasync="false" type="text/javascript">
-
-
-      window.snigelPubConf = {
-        "adengine": {
-          "activeAdUnits": window.activeUnits // Mobile Ad Units
-        }
-      }
-
-    </script>
-
     <title>Angle</title>
   </head>
   <body>    
