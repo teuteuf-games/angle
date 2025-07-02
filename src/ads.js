@@ -94,9 +94,9 @@ export const checkForConsent = () => {
 
 const initializeAnalytics = () => {
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args) {
+  window.gtag = function (...args) {
     window.dataLayer?.push(args);
-  }
+  };
 
   const currentID = 'G-WDL5SFD2WC';
 
@@ -107,8 +107,8 @@ const initializeAnalytics = () => {
     document.head.appendChild(script);
 
     script.onload = () => {
-      gtag('js', new Date());
-      gtag('config', currentID);
+      window.gtag('js', new Date());
+      window.gtag('config', currentID);
     };
   }
   return;
