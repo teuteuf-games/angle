@@ -68,9 +68,11 @@ function setActiveAdUnits(isPremium) {
 }
 
 /**
- * Check for consent, then load GA and other cookie scripts
+ * Check for consent through Snigel, then set GA consent
  */
 export const checkForConsent = () => {
+  initializeCookielessAnalytics();
+
   window.addEventListener('adnginLoaderReady', function () {
     window.__tcfapi('addEventListener', 2, (tcData, success) => {
       if (success && tcData?.eventStatus === 'tcloaded') {
@@ -80,7 +82,11 @@ export const checkForConsent = () => {
               if (consent.fullConsent) {
                 // Load cookie scripts here
                 console.log('########### yas consent');
-                initializeAnalytics();
+                window.gtag &&
+                  window.gtag("consent", "update", {
+                    ad_storage: "granted",
+                    analytics_storage: "granted",
+                  });
               } else {
                 // Otherwise, block all cookie-deploying scripts
                 console.log('########### naur consent');
@@ -92,11 +98,20 @@ export const checkForConsent = () => {
   });
 };
 
-const initializeAnalytics = () => {
+/**
+ * Initializes GA in cookieless mode, once consent is set we can add cookies
+ */
+const initializeCookielessAnalytics = () => {
   window.dataLayer = window.dataLayer || [];
   window.gtag = function (...args) {
     window.dataLayer?.push(args);
   };
+
+  // start with denied consent
+  window.gtag("consent", "default", {
+    ad_storage: "denied",
+    analytics_storage: "denied",
+  });
 
   const currentID = 'G-WDL5SFD2WC';
 
