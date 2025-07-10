@@ -102,12 +102,12 @@ function clearAnalyticsCookies() {
     .forEach((cookie) => {
       const name = cookie.split('=')[0];
       if (name.startsWith('_ga')) {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=angle.wtf`;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.angle.wtf`;
       }
     });
 
   // delete other analytics cookies
   teuteufCookieNames.forEach((name) => {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=angle.wtf`;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.angle.wtf`;
   });
 }
