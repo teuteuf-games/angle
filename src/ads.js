@@ -71,60 +71,43 @@ function setActiveAdUnits(isPremium) {
  * Check for consent through Snigel, then set GA consent
  */
 export const checkForConsent = () => {
-  initializeCookielessAnalytics();
-
   window.addEventListener('adnginLoaderReady', function () {
-    window.__tcfapi('addEventListener', 2, (tcData, success) => {
-      if (success && tcData?.eventStatus === 'tcloaded') {
-        window.adconsent &&
-          window.adconsent('getConsent', null, function (consent, success) {
-            if (success) {
-              if (consent.fullConsent) {
-                // Load cookie scripts here
-                console.log('########### yas consent');
-                window.gtag &&
-                  window.gtag("consent", "update", {
-                    ad_storage: "granted",
-                    analytics_storage: "granted",
-                  });
-              } else {
-                // Otherwise, block all cookie-deploying scripts
-                console.log('########### naur consent');
-              }
-            }
-          });
+    window.adconsent &&
+      window.adconsent('getConsent', null, function (consent, success) {
+        if (success) {
+          if (consent.fullConsent) {
+            console.log('########### yas consent');
+            window.gtag('consent', 'update', {
+              ad_storage: 'granted',
+              analytics_storage: 'granted',
+              ad_user_data: 'granted',
+              ad_personalization: 'granted',
+            });
+          } else {
+            console.log('########### naur consent');
+            clearAnalyticsCookies();
+          }
+        }
+      });
+  });
+};
+
+function clearAnalyticsCookies() {
+  const teuteufCookieNames = ['_gid'];
+
+  // delete all _ga cookies
+  document.cookie
+    .split(';')
+    .map((c) => c.trim())
+    .forEach((cookie) => {
+      const name = cookie.split('=')[0];
+      if (name.startsWith('_ga')) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=angle.wtf`;
       }
     });
+
+  // delete other analytics cookies
+  teuteufCookieNames.forEach((name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=angle.wtf`;
   });
-};
-
-/**
- * Initializes GA in cookieless mode, once consent is set we can add cookies
- */
-const initializeCookielessAnalytics = () => {
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function (...args) {
-    window.dataLayer?.push(args);
-  };
-
-  // start with denied consent
-  window.gtag("consent", "default", {
-    ad_storage: "denied",
-    analytics_storage: "denied",
-  });
-
-  const currentID = 'G-WDL5SFD2WC';
-
-  if (!document.querySelector(`script[src*="gtag/js?id=${currentID}"]`)) {
-    const script = document.createElement('script');
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${currentID}`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      window.gtag('js', new Date());
-      window.gtag('config', currentID);
-    };
-  }
-  return;
-};
+}
