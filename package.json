@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@teuteuf-games/accounts-update-modal": "^1.0.1",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.15",
     "luxon": "^2.4.0",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
