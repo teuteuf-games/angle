@@ -28,7 +28,7 @@ const SidebarAd = styled.div`
   display: block;
   position: absolute;
   z-index: 0;
-  padding-top: 20px;
+  padding-top: 60px;
   padding-right: 20px;
   transform: translateX(-100%);
 `;
