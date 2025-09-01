@@ -227,7 +227,7 @@ function App() {
             transition={Flip}
             autoClose={false}
           />
-          <BackToSchoolBanner />
+          {!user?.premiumGames?.length && <BackToSchoolBanner />}
           <LogoContainer href={'/'}>
             <Logo src={'/images/angle.svg'} alt="logo" />
             <LogoText>ANGLE</LogoText>
