@@ -17,7 +17,7 @@ import { SocialLinks } from './components/SocialLinks';
 import useUser from './hooks/useUser';
 import AccountsUpdateComponent from './components/AccountsUpdateComponent';
 import { checkForConsent } from './ads';
-import BackToSchoolBanner from './components/backToSchool/BackToSchoolBanner';
+import ScrollingBlackFridayPrompt from './components/ScrollingBlackFridayPrompt';
 
 const Main = styled.div`
   flex: 1 0 auto;
@@ -227,7 +227,7 @@ function App() {
             transition={Flip}
             autoClose={false}
           />
-          {!user?.premiumGames?.length && <BackToSchoolBanner />}
+          <ScrollingBlackFridayPrompt />
           <LogoContainer href={'/'}>
             <Logo src={'/images/angle.svg'} alt="logo" />
             <LogoText>ANGLE</LogoText>
