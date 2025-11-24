@@ -9,8 +9,8 @@ import useUser from "../hooks/useUser";
  */
 const ScrollingBlackFridayPrompt = () => {
   const [closedDates, setClosedDates] = useLocalStorage(
-    "scrolling-black-friday-2025-prompt-closed-dates",
-    [],
+    'scrolling-black-friday-2025-prompt-closed-dates',
+    []
   );
   const [hidden, setHidden] = useState(true);
   const { userDetails } = useUser();
@@ -22,16 +22,13 @@ const ScrollingBlackFridayPrompt = () => {
   };
 
   const handleClick = () => {
-    window.open("https://account.teuteuf.fr/premium-sign-up", "_blank");
+    window.open('https://account.teuteuf.fr/premium-sign-up', '_blank');
   };
 
-  // show banner Monday Nov 24th and Tuesday Nov 25th
+  // show banner Monday Nov 24th
   // if banner has been closed, we never show again
   useEffect(() => {
-    if (
-      dayjs().isBefore(dayjs("2025-11-24"), "day") ||
-      dayjs().isAfter(dayjs("2025-11-25"), "day")
-    ) {
+    if (!dayjs().isSame(dayjs('2025-11-24'), 'day')) {
       return setHidden(true);
     }
     if (userDetails?.premiumGames?.length) return setHidden(true); // hide if premium
@@ -44,11 +41,11 @@ const ScrollingBlackFridayPrompt = () => {
   return (
     <ScrollingTopBanner
       bannerText={[
-        "black friday is here",
-        "40% off all premium plans",
-        "play without ads",
-        "access the archives",
-        "use code blackfriday25",
+        'black friday is here',
+        '40% off all premium plans',
+        'play without ads',
+        'access the archives',
+        'use code blackfriday25',
       ]}
       onClick={handleClick}
       onClose={handleClose}
